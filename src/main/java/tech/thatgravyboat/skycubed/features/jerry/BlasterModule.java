@@ -3,7 +3,7 @@ package tech.thatgravyboat.skycubed.features.jerry;
 import it.unimi.dsi.fastutil.floats.FloatIntPair;
 import net.minecraft.world.item.ItemStack;
 import tech.thatgravyboat.skycubed.api.events.ItemBarCallback;
-import tech.thatgravyboat.skycubed.api.items.DefaultItemAttributes;
+import tech.thatgravyboat.skycubed.api.items.ItemAttributes;
 import tech.thatgravyboat.skycubed.utils.ItemUtils;
 import tech.thatgravyboat.skycubed.utils.NumberUtils;
 
@@ -26,7 +26,7 @@ public class BlasterModule {
 
     public static void init() {
         ItemBarCallback.EVENT.register(item -> {
-            Integer ammo = item.getCubedAttribute(DefaultItemAttributes.BLASTER_AMMO);
+            Integer ammo = item.getCubedAttribute(ItemAttributes.BLASTER_AMMO);
             if (ammo == null) return null;
             float fuel = ammo / getMaxAmmo(item);
             return FloatIntPair.of(fuel, 0xFEFEFE);

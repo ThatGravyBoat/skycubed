@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 import tech.thatgravyboat.skycubed.api.events.HudElementRenderCallback;
 import tech.thatgravyboat.skycubed.api.events.HudRenderCallback;
-import tech.thatgravyboat.skycubed.api.items.DefaultItemAttributes;
+import tech.thatgravyboat.skycubed.api.items.ItemAttributes;
 import tech.thatgravyboat.skycubed.config.features.HudReplacementConfig;
 import tech.thatgravyboat.skycubed.features.misc.SkyBlockModule;
 
@@ -37,8 +37,8 @@ public class HiddenHudModule {
             if (Minecraft.getInstance().player == null) return;
             if (!SkyBlockModule.isSkyBlock()) return;
             ItemStack heldItem = Minecraft.getInstance().player.getMainHandItem();
-            String skyblockId = heldItem.getCubedAttribute(DefaultItemAttributes.ID);
-            graphics.drawString(Minecraft.getInstance().font, String.valueOf(skyblockId), 10, 10, 0xFFFFFF);
+            var ability = heldItem.getCubedAttribute(ItemAttributes.RIGHT_CLICK_ABILITY);
+            graphics.drawString(Minecraft.getInstance().font, String.valueOf(ability), 10, 10, 0xFFFFFF);
         });
     }
 }

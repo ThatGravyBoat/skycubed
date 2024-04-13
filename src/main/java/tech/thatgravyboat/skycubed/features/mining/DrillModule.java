@@ -3,7 +3,7 @@ package tech.thatgravyboat.skycubed.features.mining;
 import it.unimi.dsi.fastutil.floats.FloatIntPair;
 import net.minecraft.world.item.ItemStack;
 import tech.thatgravyboat.skycubed.api.events.ItemBarCallback;
-import tech.thatgravyboat.skycubed.api.items.DefaultItemAttributes;
+import tech.thatgravyboat.skycubed.api.items.ItemAttributes;
 import tech.thatgravyboat.skycubed.utils.ItemUtils;
 import tech.thatgravyboat.skycubed.utils.NumberUtils;
 
@@ -26,7 +26,7 @@ public class DrillModule {
 
     public static void init() {
         ItemBarCallback.EVENT.register(item -> {
-            Integer drillFuel = item.getCubedAttribute(DefaultItemAttributes.DRILL_FUEL);
+            Integer drillFuel = item.getCubedAttribute(ItemAttributes.DRILL_FUEL);
             if (drillFuel == null) return null;
             float fuel = drillFuel / getMaxFuel(item);
             return FloatIntPair.of(fuel, 0x00FF00);

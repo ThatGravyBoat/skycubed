@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import tech.thatgravyboat.skycubed.api.items.DefaultItemAttributes;
+import tech.thatgravyboat.skycubed.api.items.ItemAttributes;
 
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +37,7 @@ public class ItemUtils {
 
     public static boolean isNullPane(ItemStack stack) {
         if (!GLASS_PANES.contains(stack.getItem())) return false;
-        if (stack.getCubedAttribute(DefaultItemAttributes.ID) != null) return false;
+        if (stack.getCubedAttribute(ItemAttributes.ID) != null) return false;
         List<String> lore = getLore(stack);
         if (lore.isEmpty()) return true;
         return lore.stream().allMatch(String::isBlank);
