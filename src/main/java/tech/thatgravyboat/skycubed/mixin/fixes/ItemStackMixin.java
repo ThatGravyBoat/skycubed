@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import tech.thatgravyboat.skycubed.api.items.ItemAttributes;
-import tech.thatgravyboat.skycubed.api.items.SkyCubedItem;
+import tech.thatgravyboat.skycubed.api.items.SkyCubedItemHolder;
 import tech.thatgravyboat.skycubed.api.items.SkyCubedItemAttribute;
 
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Mixin(ItemStack.class)
 @SuppressWarnings({"unchecked", "AddedMixinMembersNamePattern"})
-public class ItemStackMixin implements SkyCubedItem {
+public class ItemStackMixin implements SkyCubedItemHolder {
 
     @Unique
     private Map<SkyCubedItemAttribute<?>, Object> attributes = new HashMap<>();

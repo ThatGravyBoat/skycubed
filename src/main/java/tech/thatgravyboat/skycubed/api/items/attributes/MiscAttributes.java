@@ -1,20 +1,15 @@
-package tech.thatgravyboat.skycubed.utils;
+package tech.thatgravyboat.skycubed.api.items.attributes;
 
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ReferenceSet;
+import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import tech.thatgravyboat.skycubed.api.items.ItemAttributes;
 
-import java.util.List;
-import java.util.Objects;
-
-public class ItemUtils {
+public class MiscAttributes {
 
     private static final ReferenceSet<Item> GLASS_PANES = Util.make(new ReferenceOpenHashSet<>(), set -> {
         set.add(Items.BLACK_STAINED_GLASS_PANE);
@@ -35,26 +30,10 @@ public class ItemUtils {
         set.add(Items.YELLOW_STAINED_GLASS_PANE);
     });
 
-    public static boolean isNullPane(ItemStack stack) {
-        if (!GLASS_PANES.contains(stack.getItem())) return false;
-        if (stack.getCubedAttribute(ItemAttributes.ID) != null) return false;
-        List<String> lore = getLore(stack);
-        if (lore.isEmpty()) return true;
-        return lore.stream().allMatch(String::isBlank);
-    }
-
-    public static List<String> getLore(ItemStack stack) {
-        CompoundTag display = stack.getTagElement(ItemStack.TAG_DISPLAY);
-        if (display == null) return List.of();
-        try {
-            return display.getList(ItemStack.TAG_LORE, 8).stream()
-                    .map(Tag::getAsString)
-                    .map(Component.Serializer::fromJson)
-                    .filter(Objects::nonNull)
-                    .map(TextUtils::toSimpleText)
-                    .toList();
-        }catch (Exception e) {
-            return List.of();
-        }
+    public static Boolean isNullPane(ItemStack item) {
+        if (!GLASS_PANES.contains(item.getItem())) return false;
+        if (item.getCubedAttribute(ItemAttributes.ID) != null) return false;
+        String name = ChatFormatting.stripFormatting(item.getHoverName().getString());
+        return name != null && name.isBlank();
     }
 }

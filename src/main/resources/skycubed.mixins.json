@@ -3,7 +3,7 @@
     "minVersion": "0.8",
     "package": "tech.thatgravyboat.skycubed.mixin",
     "compatibilityLevel": "JAVA_17",
-    "mixins": [ "events.GuiGraphicsMixin", "fixes.ItemStackMixin" ],
+    "mixins": [ "events.GuiGraphicsMixin", "fixes.ItemStackMixin", "fixes.SlotMixin" ],
     "client": [
         "accessor.AbstractContainerScreenAccessor",
         "events.ClientPacketListenerMixin",

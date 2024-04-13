@@ -21,7 +21,8 @@
     },
     "custom": {
         "loom:injected_interfaces": {
-            "net/minecraft/class_1799": ["tech/thatgravyboat/skycubed/api/items/SkyCubedItem"]
+            "net/minecraft/class_1799": ["tech/thatgravyboat/skycubed/api/items/SkyCubedItemHolder"],
+            "net/minecraft/class_1735": ["tech/thatgravyboat/skycubed/api/items/SkyCubedItemHolder"]
         }
     }
 }

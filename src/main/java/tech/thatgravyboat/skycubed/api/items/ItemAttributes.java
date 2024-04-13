@@ -3,9 +3,14 @@ package tech.thatgravyboat.skycubed.api.items;
 import it.unimi.dsi.fastutil.objects.ObjectIntPair;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import tech.thatgravyboat.skycubed.utils.ItemUtils;
+import tech.thatgravyboat.skycubed.api.items.attributes.LoreAttributes;
+import tech.thatgravyboat.skycubed.api.items.attributes.ManaAttributes;
+import tech.thatgravyboat.skycubed.api.items.attributes.MiscAttributes;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiFunction;
 
 public class ItemAttributes {
@@ -13,22 +18,15 @@ public class ItemAttributes {
     private static final List<SkyCubedItemAttribute<?>> ATTRIBUTES = new ArrayList<>();
 
     public static final SkyCubedItemAttribute<String> ID = register(item -> getTag(item, "id", CompoundTag::getString));
+    public static final SkyCubedItemAttribute<List<String>> LORE = register(LoreAttributes::getLore);
+
+    public static final SkyCubedItemAttribute<Boolean> NULL_PANE = register(MiscAttributes::isNullPane);
+
     public static final SkyCubedItemAttribute<Integer> DRILL_FUEL = register(item -> getTag(item, "drill_fuel", CompoundTag::getInt));
+    public static final SkyCubedItemAttribute<Integer> MAX_DRILL_FUEL = register(LoreAttributes::getDrillMaxFuel);
     public static final SkyCubedItemAttribute<Integer> BLASTER_AMMO = register(item -> getTag(item, "ammo", CompoundTag::getInt));
-    public static final SkyCubedItemAttribute<ObjectIntPair<String>> RIGHT_CLICK_ABILITY = register(item -> {
-        List<String> lore = ItemUtils.getLore(item);
-        int manaCost = -1;
-        for (int i = lore.size() - 1; i >= 0; i--) {
-            String line = lore.get(i);
-            if (line.startsWith("mana cost: ")) {
-                manaCost = Integer.parseInt(line.substring(10).trim());
-            } else if (line.startsWith("ability: ") && line.endsWith(" right click")) {
-                if (manaCost == -1) return null;
-                return ObjectIntPair.of(line.substring(9, line.length() - 13), manaCost);
-            }
-        }
-        return null;
-    });
+    public static final SkyCubedItemAttribute<Integer> MAX_BLASTER_AMMO = register(LoreAttributes::getBlasterAmmo);
+    public static final SkyCubedItemAttribute<ObjectIntPair<String>> RIGHT_CLICK_ABILITY = register(ManaAttributes::getRightClickAbility);
 
     private static <T> SkyCubedItemAttribute<T> register(SkyCubedItemAttribute<T> attribute) {
         ATTRIBUTES.add(attribute);

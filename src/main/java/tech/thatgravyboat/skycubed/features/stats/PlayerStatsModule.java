@@ -1,6 +1,8 @@
 package tech.thatgravyboat.skycubed.features.stats;
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import tech.thatgravyboat.skycubed.api.events.ActionBarCallback;
+import tech.thatgravyboat.skycubed.api.items.ItemAttributes;
 import tech.thatgravyboat.skycubed.features.misc.SkyBlockModule;
 import tech.thatgravyboat.skycubed.utils.RegexMatcher;
 import tech.thatgravyboat.skycubed.utils.RepoPattern;
@@ -19,6 +21,8 @@ public class PlayerStatsModule {
     private static int maxMana = 100;
     private static int mana = 100;
     private static int defense = 0;
+
+    private static int itemMana = 0;
 
     public static void init() {
         ActionBarCallback.EVENT.register(message -> {
@@ -40,6 +44,14 @@ public class PlayerStatsModule {
                 PlayerStatsModule.maxMana = mana.integer("maxmana", PlayerStatsModule.maxMana);
                 PlayerStatsModule.mana = mana.integer("mana", PlayerStatsModule.mana);
             }
+        });
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            itemMana = 0;
+            if (client.player == null) return;
+            var ability = client.player.getMainHandItem().getCubedAttribute(ItemAttributes.RIGHT_CLICK_ABILITY);
+            if (ability == null) return;
+            itemMana = ability.rightInt();
         });
     }
 
@@ -73,6 +85,14 @@ public class PlayerStatsModule {
 
     public static String manaString() {
         return mana + "/" + maxMana;
+    }
+
+    public static int itemMana() {
+        return itemMana;
+    }
+
+    public static float itemManaPercent() {
+        return (float) itemMana / (float) maxMana;
     }
 
     public static int defense() {

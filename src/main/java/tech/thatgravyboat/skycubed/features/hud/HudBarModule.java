@@ -31,15 +31,20 @@ public class HudBarModule {
 
         float healthPercentage = Mth.lerp(partialTicks, lastHealthPercentage, PlayerStatsModule.healthPercent());
         float manaPercentage = Mth.lerp(partialTicks, lastManaPercentage, PlayerStatsModule.manaPercent());
+        float manaItemPercentage = PlayerStatsModule.itemManaPercent();
 
-        graphics.blit(TEXTURE, x, y, 0, 10, 73, 5);
-        graphics.blit(TEXTURE, x, y, 0, 15, (int) (healthPercentage * 73f), 5);
+        boolean hasAbsorption = healthPercentage > 1f;
+
+        graphics.blit(TEXTURE, x, y, hasAbsorption ? 73 : 0, 10, 73, 5);
+        graphics.blit(TEXTURE, x, y, hasAbsorption ? 73 : 0, 15, Mth.lerpInt(healthPercentage, 0, 73), 5);
 
         graphics.drawString(mc.font, PlayerStatsModule.healthString(), x + 1, y - 10, 0xff5555);
 
         x = width / 2 + 18;
         graphics.blit(TEXTURE, x, y, 0, 0, 73, 5);
-        graphics.blit(TEXTURE, x, y, 0, 5, (int) (manaPercentage * 73f), 5);
+        graphics.blit(TEXTURE, x, y, 73, 0, Mth.lerpInt(manaItemPercentage, 0, 73), 5);
+        graphics.blit(TEXTURE, x, y, 0, 5, Mth.lerpInt(manaPercentage, 0, 73), 5);
+        graphics.blit(TEXTURE, x, y, 73, 5, Mth.lerpInt(Math.min(manaPercentage, manaItemPercentage), 0, 73), 5);
 
         graphics.drawString(mc.font, PlayerStatsModule.manaString(), x + 71 - mc.font.width(PlayerStatsModule.manaString()), y - 10, 0x5555ff);
 

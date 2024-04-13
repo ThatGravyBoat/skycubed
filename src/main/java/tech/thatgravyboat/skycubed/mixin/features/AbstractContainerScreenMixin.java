@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import tech.thatgravyboat.skycubed.api.items.ItemAttributes;
 import tech.thatgravyboat.skycubed.config.features.GuiConfig;
-import tech.thatgravyboat.skycubed.utils.ItemUtils;
 
 @Mixin(AbstractContainerScreen.class)
 public class AbstractContainerScreenMixin {
@@ -20,7 +20,7 @@ public class AbstractContainerScreenMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;isHovering(Lnet/minecraft/world/inventory/Slot;DD)Z")
     )
     private boolean render(AbstractContainerScreen<?> instance, Slot slot, double d, double e, Operation<Boolean> original) {
-        if (GuiConfig.hideNullPanes && slot.hasItem() && ItemUtils.isNullPane(slot.getItem())) {
+        if (GuiConfig.hideNullPanes && slot.hasItem() && slot.getItem().hasCubedAttribute(ItemAttributes.NULL_PANE)) {
             return false;
         }
         return original.call(instance, slot, d, e);
@@ -32,7 +32,7 @@ public class AbstractContainerScreenMixin {
             cancellable = true
     )
     private void mouseClicked(double d, double e, int i, CallbackInfoReturnable<Boolean> cir, @Local Slot slot) {
-        if (GuiConfig.hideNullPanes && slot != null && slot.hasItem() && ItemUtils.isNullPane(slot.getItem())) {
+        if (GuiConfig.hideNullPanes && slot != null && slot.hasItem() && slot.getItem().hasCubedAttribute(ItemAttributes.NULL_PANE)) {
             cir.setReturnValue(true);
         }
     }
