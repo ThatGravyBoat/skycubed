@@ -7,10 +7,12 @@ import net.minecraft.network.chat.Component;
 public interface ActionBarCallback {
 
     Event<ActionBarCallback> EVENT = EventFactory.createArrayBacked(ActionBarCallback.class, (listeners) -> (message) -> {
+        Component newMessage = message;
         for (ActionBarCallback listener : listeners) {
-            listener.onActionBarMessage(message);
+            newMessage = listener.onActionBarMessage(newMessage);
         }
+        return newMessage;
     });
 
-    void onActionBarMessage(Component message);
+    Component onActionBarMessage(Component message);
 }

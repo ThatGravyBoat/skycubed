@@ -69,4 +69,8 @@ public class RegexMatcher {
         }
     }
 
+    public String replace(String replacement) {
+        return matcher.replaceAll(replacement);
+    }
+
 }

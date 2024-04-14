@@ -1,6 +1,8 @@
 package tech.thatgravyboat.skycubed.api.items;
 
 import it.unimi.dsi.fastutil.objects.ObjectIntPair;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import tech.thatgravyboat.skycubed.api.items.attributes.LoreAttributes;
@@ -8,9 +10,7 @@ import tech.thatgravyboat.skycubed.api.items.attributes.ManaAttributes;
 import tech.thatgravyboat.skycubed.api.items.attributes.MiscAttributes;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.BiFunction;
 
 public class ItemAttributes {
@@ -26,6 +26,7 @@ public class ItemAttributes {
     public static final SkyCubedItemAttribute<Integer> MAX_DRILL_FUEL = register(LoreAttributes::getDrillMaxFuel);
     public static final SkyCubedItemAttribute<Integer> BLASTER_AMMO = register(item -> getTag(item, "ammo", CompoundTag::getInt));
     public static final SkyCubedItemAttribute<Integer> MAX_BLASTER_AMMO = register(LoreAttributes::getBlasterAmmo);
+    public static final SkyCubedItemAttribute<Integer> PICKONIMBUS_DURABILITY = register(item -> getTag(item, "pickonimbus_durability", CompoundTag::getInt));
     public static final SkyCubedItemAttribute<ObjectIntPair<String>> RIGHT_CLICK_ABILITY = register(ManaAttributes::getRightClickAbility);
 
     private static <T> SkyCubedItemAttribute<T> register(SkyCubedItemAttribute<T> attribute) {
@@ -41,8 +42,8 @@ public class ItemAttributes {
         return mapper.apply(extraAttributes, key);
     }
 
-    public static Map<SkyCubedItemAttribute<?>, Object> getAttributes(ItemStack stack) {
-        Map<SkyCubedItemAttribute<?>, Object> attributes = new HashMap<>();
+    public static Reference2ObjectMap<SkyCubedItemAttribute<?>, Object> getAttributes(ItemStack stack) {
+        Reference2ObjectMap<SkyCubedItemAttribute<?>, Object> attributes = new Reference2ObjectOpenHashMap<>();
         for (SkyCubedItemAttribute<?> attribute : ATTRIBUTES) {
             Object value = attribute.get(stack);
             if (value != null) {

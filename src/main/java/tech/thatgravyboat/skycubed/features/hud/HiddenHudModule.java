@@ -27,7 +27,7 @@ public class HiddenHudModule {
             if (HudReplacementConfig.hideEffects && element == HudElementRenderCallback.Element.EFFECTS) {
                 return TriState.FALSE;
             }
-            if (HIDDEN_ELEMENTS.contains(element)) {
+            if (HIDDEN_ELEMENTS.contains(element) && HudReplacementConfig.replaceVanillaHud) {
                 return TriState.FALSE;
             }
             return TriState.UNDEFINED;
