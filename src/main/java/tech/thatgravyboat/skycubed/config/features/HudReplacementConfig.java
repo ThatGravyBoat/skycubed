@@ -17,7 +17,7 @@ public final class HudReplacementConfig {
     public static boolean hideEffects = true;
 
     @ConfigEntry(
-            id = "replace-vanilla-hud",
+            id = "replaceVanillaHud",
             type = EntryType.BOOLEAN,
             translation = "config.skycubed.replaceVanillaHud"
     )
@@ -25,7 +25,7 @@ public final class HudReplacementConfig {
     public static boolean replaceVanillaHud = true;
 
     @ConfigEntry(
-            id = "show-effective-health",
+            id = "showEffectiveHealth",
             type = EntryType.BOOLEAN,
             translation = "config.skycubed.showEffectiveHealth"
     )

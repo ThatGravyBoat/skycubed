@@ -45,9 +45,14 @@ public class ItemAttributes {
     public static Reference2ObjectMap<SkyCubedItemAttribute<?>, Object> getAttributes(ItemStack stack) {
         Reference2ObjectMap<SkyCubedItemAttribute<?>, Object> attributes = new Reference2ObjectOpenHashMap<>();
         for (SkyCubedItemAttribute<?> attribute : ATTRIBUTES) {
-            Object value = attribute.get(stack);
-            if (value != null) {
-                attributes.put(attribute, value);
+            try {
+                Object value = attribute.get(stack);
+                if (value != null) {
+                    attributes.put(attribute, value);
+                }
+            }catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Failed to get attribute " + attribute);
             }
         }
         return attributes;

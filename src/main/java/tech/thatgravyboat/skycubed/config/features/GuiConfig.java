@@ -9,7 +9,7 @@ import com.teamresourceful.resourcefulconfig.api.types.options.EntryType;
 public final class GuiConfig {
 
     @ConfigEntry(
-        id = "hide-null-panes",
+        id = "hideNullPanes",
         type = EntryType.BOOLEAN,
         translation = "config.skycubed.hideNullPanes"
     )
