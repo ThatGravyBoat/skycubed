@@ -5,12 +5,14 @@ import com.teamresourceful.resourcefulconfig.api.annotations.ConfigInfo;
 import tech.thatgravyboat.skycubed.config.features.DevConfig;
 import tech.thatgravyboat.skycubed.config.features.GuiConfig;
 import tech.thatgravyboat.skycubed.config.features.HudReplacementConfig;
+import tech.thatgravyboat.skycubed.config.features.notifications.NotificationConfig;
 
 @Config(
         value = "skycubed",
         categories = {
                 HudReplacementConfig.class,
                 GuiConfig.class,
+                NotificationConfig.class,
                 DevConfig.class
         }
 )
