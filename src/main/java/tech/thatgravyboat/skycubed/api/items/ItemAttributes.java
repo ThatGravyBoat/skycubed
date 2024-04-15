@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import tech.thatgravyboat.skycubed.api.items.attributes.LoreAttributes;
 import tech.thatgravyboat.skycubed.api.items.attributes.ManaAttributes;
 import tech.thatgravyboat.skycubed.api.items.attributes.MiscAttributes;
+import tech.thatgravyboat.skycubed.features.misc.hoppity.HoppityCpsModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,8 @@ public class ItemAttributes {
     public static final SkyCubedItemAttribute<Integer> MAX_BLASTER_AMMO = register(LoreAttributes::getBlasterAmmo);
     public static final SkyCubedItemAttribute<Integer> PICKONIMBUS_DURABILITY = register(item -> getTag(item, "pickonimbus_durability", CompoundTag::getInt));
     public static final SkyCubedItemAttribute<ObjectIntPair<String>> RIGHT_CLICK_ABILITY = register(ManaAttributes::getRightClickAbility);
+
+    public static final SkyCubedItemAttribute<Float> HOPPITY_PRICE_PER_CHOCOLATE = register(HoppityCpsModule::pricePerChocolate);
 
     private static <T> SkyCubedItemAttribute<T> register(SkyCubedItemAttribute<T> attribute) {
         ATTRIBUTES.add(attribute);

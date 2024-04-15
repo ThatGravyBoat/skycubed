@@ -4,7 +4,10 @@
     "package": "tech.thatgravyboat.skycubed.mixin",
     "compatibilityLevel": "JAVA_17",
     "mixins": [
-        "events.GuiGraphicsMixin", "fixes.ItemStackMixin", "fixes.SlotMixin",
+        "events.GuiGraphicsMixin",
+        "events.ItemStackMixin",
+        "fixes.ItemStackMixin",
+        "fixes.SlotMixin",
         "fixes.YggdrasilMinecraftSessionServiceMixin"
     ],
     "client": [

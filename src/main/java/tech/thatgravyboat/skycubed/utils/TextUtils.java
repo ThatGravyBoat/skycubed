@@ -9,7 +9,7 @@ import java.util.Locale;
 public class TextUtils {
 
     public static String toSimpleText(Component component) {
-        return ChatFormatting.stripFormatting(component.getString().strip().toLowerCase(Locale.ROOT));
+        return ChatFormatting.stripFormatting(component.getString().stripTrailing().toLowerCase(Locale.ROOT));
     }
 
     public static void sendToChat(Component component) {
