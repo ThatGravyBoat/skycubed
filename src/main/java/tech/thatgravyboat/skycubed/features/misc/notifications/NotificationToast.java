@@ -19,15 +19,14 @@ public class NotificationToast implements Toast {
 
     private static final ResourceLocation BACKGROUND = new ResourceLocation(SkyCubed.MOD_ID, "notification");
 
-    @Nullable
     private final NotificationIcon icon;
-    private final List<FormattedCharSequence> text;
+    private List<FormattedCharSequence> text;
     private final String id;
     private final long displayTime;
     private long removalTime = -1;
-    private boolean removed;
+    private boolean replaced;
 
-    public NotificationToast(@Nullable NotificationIcon icon, List<FormattedCharSequence> text, String id, long displayTime) {
+    public NotificationToast(NotificationIcon icon, List<FormattedCharSequence> text, String id, long displayTime) {
         this.icon = icon;
         this.text = text;
         this.id = id;
@@ -37,7 +36,7 @@ public class NotificationToast implements Toast {
     @Override
     public int width() {
         Font font = Minecraft.getInstance().font;
-        return Math.min(200, text.stream().mapToInt(font::width).max().orElse(200)) + 8 + (this.icon != null ? 40 : 0);
+        return Math.min(200, text.stream().mapToInt(font::width).max().orElse(200)) + 8 + (this.icon != NotificationIcon.NONE ? 40 : 0);
     }
 
     @Override
@@ -52,16 +51,17 @@ public class NotificationToast implements Toast {
 
     @Override
     public @NotNull Toast.Visibility render(GuiGraphics graphics, ToastComponent toastComponent, long l) {
-        if (this.removalTime == -1) {
+        if (this.removalTime == -1 || this.replaced) {
             this.removalTime = System.currentTimeMillis() + this.displayTime;
+            this.replaced = false;
         }
         Font font = toastComponent.getMinecraft().font;
         graphics.blitSprite(BACKGROUND, 0, 0, this.width(), this.height());
 
         int y = 1 + this.height() / 2 - this.text.size() * 5;
-        int x = 4 + (this.icon != null ? 32 : 0);
+        int x = 4 + (this.icon != NotificationIcon.NONE ? 32 : 0);
 
-        if (this.icon != null) {
+        if (this.icon != NotificationIcon.NONE) {
             graphics.blitSprite(this.icon.location(), 2, 2, 28, 28);
         }
 
@@ -69,22 +69,24 @@ public class NotificationToast implements Toast {
             graphics.drawString(font, this.text.get(line), x, y + line * 10, -1, false);
         }
 
-        return this.removed || this.removalTime <= System.currentTimeMillis() ? Toast.Visibility.HIDE : Toast.Visibility.SHOW;
+        return this.removalTime <= System.currentTimeMillis() ? Toast.Visibility.HIDE : Toast.Visibility.SHOW;
     }
 
-    public void remove() {
-        this.removed = true;
+    public void replace(List<FormattedCharSequence> text) {
+        this.text = text;
+        this.replaced = true;
     }
 
-    public static void add(ToastComponent component, @Nullable NotificationIcon icon, @Nullable String id, Component text, long time) {
+    public static void add(ToastComponent component, NotificationIcon icon, @Nullable String id, Component text, long time) {
+        Font font = component.getMinecraft().font;
+        List<FormattedCharSequence> list = font.split(text, icon != NotificationIcon.NONE ? 152 : 192);
         if (id != null) {
             NotificationToast existing = component.getToast(NotificationToast.class, id);
             if (existing != null) {
-                existing.remove();
+                existing.replace(list);
+                return;
             }
         }
-        Font font = component.getMinecraft().font;
-        List<FormattedCharSequence> list = font.split(text, icon != null ? 152 : 192);
         component.addToast(new NotificationToast(icon, list, id, time));
     }
 

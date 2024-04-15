@@ -4,7 +4,7 @@ import tech.thatgravyboat.skycubed.config.features.notifications.NotificationOpt
 
 import java.util.regex.Pattern;
 
-public record NotificationType(NotificationOptions options, NotificationIcon icon, String key, Pattern pattern) {
+public record NotificationType(NotificationOptions options, String key, Pattern pattern) {
 
     public boolean shouldCheck() {
         return options.shouldCheck();

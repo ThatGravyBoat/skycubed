@@ -14,13 +14,16 @@ import java.util.List;
 
 public class NotificationModule {
 
-    private static final NotificationOptions TOAST_ONLY = new NotificationOptions(true, true);
-
     private static final List<NotificationType> CONFIGURED_NOTIFICATIONS = List.of(
-        single(NotificationConfig.blocksInTheWay, NotificationIcon.WARNING, "notifications.blocksInTheWay", "there are blocks in the way!"),
-        single(NotificationConfig.menuThrottled, NotificationIcon.ERROR, "notifications.menuThrottled", "this menu has been throttled! please slow down..."),
-        unique(TOAST_ONLY, null, "notifications.hoppityTimeTower", "time tower! .*"),
-        unique(TOAST_ONLY, null, "notifications.hoppityBarnCapacity", "your rabbit barn capacity has been increased to [0-9,]+ rabbits!")
+        single(NotificationConfig.blocksInTheWay, "notifications.blocksInTheWay", "there are blocks in the way!"),
+        single(NotificationConfig.menuThrottled, "notifications.menuThrottled", "this menu has been throttled! please slow down..."),
+        unique(NotificationConfig.hoppityTimeTower, "notifications.hoppityTimeTower", "time tower! .*"),
+        unique(NotificationConfig.hoppityBarnCapacity, "notifications.hoppityBarnCapacity", "your rabbit barn capacity has been increased to [0-9,]+ rabbits!"),
+        unique(NotificationConfig.hoppityFoundRabbit, "notifications.hoppityFoundRabbit", "hoppity's hunt you found .*"),
+        unique(NotificationConfig.hoppityNewRabbit, "notifications.hoppityNewRabbit", "new rabbit! .*"),
+        single(NotificationConfig.sendingToServer, "notifications.sendingToServer", "(sending to server .*|warping\\.{3})"),
+        single(NotificationConfig.lobbyIsFull, "notifications.lobbyIsFull", "that lobby is currently full! try again later."),
+        single(NotificationConfig.transferredForAfk, "notifications.transferredForAfk", "you are being transferred to .* for being afk!")
     );
 
     public static void init() {
@@ -33,7 +36,7 @@ public class NotificationModule {
         for (var type : CONFIGURED_NOTIFICATIONS) {
             if (type.shouldCheck() && type.pattern().matcher(text).find()) {
                 if (type.options().showAsToast) {
-                    NotificationToast.add(Minecraft.getInstance().getToasts(), type.icon(), type.key(), message, 2250);
+                    NotificationToast.add(Minecraft.getInstance().getToasts(), type.options().toastIcon, type.key(), message, 2250);
                 }
                 return type.options().hideChatMessage ? null : message;
             }
@@ -41,11 +44,11 @@ public class NotificationModule {
         return message;
     }
 
-    private static NotificationType single(NotificationOptions options, NotificationIcon icon, String key, @Language("RegExp") String pattern) {
-        return new NotificationType(options, icon, key, RepoPattern.get(key, pattern));
+    private static NotificationType single(NotificationOptions options, String key, @Language("RegExp") String pattern) {
+        return new NotificationType(options, key, RepoPattern.get(key, pattern));
     }
 
-    private static NotificationType unique(NotificationOptions options, NotificationIcon icon, String key, @Language("RegExp") String pattern) {
-        return new NotificationType(options, icon, null, RepoPattern.get(key, pattern));
+    private static NotificationType unique(NotificationOptions options, String key, @Language("RegExp") String pattern) {
+        return new NotificationType(options, null, RepoPattern.get(key, pattern));
     }
 }

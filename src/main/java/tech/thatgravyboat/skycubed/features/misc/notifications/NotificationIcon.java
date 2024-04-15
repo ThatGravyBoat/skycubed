@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import tech.thatgravyboat.skycubed.SkyCubed;
 
 public enum NotificationIcon {
+    NONE(null),
     WARNING(new ResourceLocation(SkyCubed.MOD_ID, "warning")),
     INFO(new ResourceLocation(SkyCubed.MOD_ID, "info")),
     ERROR(new ResourceLocation(SkyCubed.MOD_ID, "error"));
