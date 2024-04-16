@@ -17,7 +17,7 @@ public class NotificationOptions {
     @Comment("Whether to hide notifications.")
     public boolean hideChatMessage;
 
-    @ConfigOption.Separator("Toast Options")
+    @ConfigOption.Separator(value = "Toast Options", description = "Options for toast notifications.")
     @ConfigEntry(
         id = "showAsToast",
         type = EntryType.BOOLEAN

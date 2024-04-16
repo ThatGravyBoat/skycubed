@@ -37,7 +37,7 @@ public class NotificationModule {
         if (!SkyBlockModule.isSkyBlock()) return message;
         String text = TextUtils.toSimpleText(message);
         for (var type : CONFIGURED_NOTIFICATIONS) {
-            if (type.shouldCheck() && type.pattern().matcher(text).find()) {
+            if (type.shouldCheck() && type.pattern().matcher(text).matches()) {
                 NotificationOptions options = type.options();
                 if (options.showAsToast) {
                     NotificationToast.add(Minecraft.getInstance().getToasts(), options.toastIcon, type.key(), message, options.toastDuration);
