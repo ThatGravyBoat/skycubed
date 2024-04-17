@@ -7,21 +7,21 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import tech.thatgravyboat.skycubed.config.features.HudReplacementConfig;
+import tech.thatgravyboat.skycubed.config.features.hud.HudConfig;
 
 @Mixin(EffectRenderingInventoryScreen.class)
 public class EffectRenderingInventoryScreenMixin {
 
     @Inject(method = "canSeeEffects", at = @At("HEAD"), cancellable = true)
     private void canSeeEffects(CallbackInfoReturnable<Boolean> cir) {
-        if (HudReplacementConfig.hideEffects) {
+        if (HudConfig.hideEffects) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "renderEffects", at = @At("HEAD"), cancellable = true)
     private void renderEffects(GuiGraphics guiGraphics, int i, int j, CallbackInfo ci) {
-        if (HudReplacementConfig.hideEffects) {
+        if (HudConfig.hideEffects) {
             ci.cancel();
         }
     }

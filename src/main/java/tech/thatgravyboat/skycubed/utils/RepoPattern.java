@@ -3,7 +3,6 @@ package tech.thatgravyboat.skycubed.utils;
 import com.google.gson.JsonObject;
 import com.teamresourceful.resourcefullib.common.utils.WebUtils;
 import org.intellij.lang.annotations.Language;
-import org.intellij.lang.annotations.RegExp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,5 +28,9 @@ public class RepoPattern {
 
     public static Pattern get(String key, @Language("RegExp") String fallback) {
         return COMPILED_PATTERNS.computeIfAbsent(key, k -> Pattern.compile(getRegex(k, fallback)));
+    }
+
+    public static Pattern get(String key, @Language("RegExp") String fallback, int flags) {
+        return COMPILED_PATTERNS.computeIfAbsent(key, k -> Pattern.compile(getRegex(k, fallback), flags));
     }
 }

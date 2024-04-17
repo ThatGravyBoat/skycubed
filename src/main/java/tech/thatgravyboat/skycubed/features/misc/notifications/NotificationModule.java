@@ -6,7 +6,7 @@ import org.intellij.lang.annotations.Language;
 import tech.thatgravyboat.skycubed.api.events.ChatAddCallback;
 import tech.thatgravyboat.skycubed.config.features.notifications.NotificationConfig;
 import tech.thatgravyboat.skycubed.config.features.notifications.NotificationOptions;
-import tech.thatgravyboat.skycubed.features.misc.SkyBlockModule;
+import tech.thatgravyboat.skycubed.features.misc.skyblock.SkyBlockModule;
 import tech.thatgravyboat.skycubed.utils.RepoPattern;
 import tech.thatgravyboat.skycubed.utils.TextUtils;
 

@@ -4,7 +4,8 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.network.chat.Component;
 import tech.thatgravyboat.skycubed.api.events.ActionBarCallback;
 import tech.thatgravyboat.skycubed.api.items.ItemAttributes;
-import tech.thatgravyboat.skycubed.features.misc.SkyBlockModule;
+import tech.thatgravyboat.skycubed.config.features.hud.HudReplacementConfig;
+import tech.thatgravyboat.skycubed.features.misc.skyblock.SkyBlockModule;
 import tech.thatgravyboat.skycubed.utils.RegexMatcher;
 import tech.thatgravyboat.skycubed.utils.RepoPattern;
 
@@ -32,20 +33,26 @@ public class PlayerStatsModule {
             if (health.found()) {
                 PlayerStatsModule.maxHealth = health.integer("maxhealth", PlayerStatsModule.maxHealth);
                 PlayerStatsModule.health = health.integer("health", PlayerStatsModule.health);
-                text = health.replace("");
+                if (HudReplacementConfig.replaceVanillaHud) {
+                    text = health.replace("");
+                }
             }
 
             RegexMatcher defense = RegexMatcher.of(DEFENSE_PATTERN, text);
             if (defense.found()) {
                 PlayerStatsModule.defense = defense.integer("defense", PlayerStatsModule.defense);
-                text = defense.replace("");
+                if (HudReplacementConfig.replaceVanillaHud) {
+                    text = defense.replace("");
+                }
             }
 
             RegexMatcher mana = RegexMatcher.of(MANA_PATTERN, text);
             if (mana.found()) {
                 PlayerStatsModule.maxMana = mana.integer("maxmana", PlayerStatsModule.maxMana);
                 PlayerStatsModule.mana = mana.integer("mana", PlayerStatsModule.mana);
-                text = mana.replace("");
+                if (HudReplacementConfig.replaceVanillaHud) {
+                    text = mana.replace("");
+                }
             }
             return Component.literal(text.trim());
         });

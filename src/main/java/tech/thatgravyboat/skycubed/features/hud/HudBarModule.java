@@ -1,28 +1,46 @@
 package tech.thatgravyboat.skycubed.features.hud;
 
+import com.teamresourceful.resourcefullib.common.utils.TriState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import tech.thatgravyboat.skycubed.SkyCubed;
+import tech.thatgravyboat.skycubed.api.events.HudElementRenderCallback;
 import tech.thatgravyboat.skycubed.api.events.HudRenderCallback;
-import tech.thatgravyboat.skycubed.config.features.HudReplacementConfig;
-import tech.thatgravyboat.skycubed.features.misc.SkyBlockModule;
+import tech.thatgravyboat.skycubed.config.features.hud.HudReplacementConfig;
+import tech.thatgravyboat.skycubed.features.misc.skyblock.IslandType;
+import tech.thatgravyboat.skycubed.features.misc.skyblock.SkyBlockModule;
 import tech.thatgravyboat.skycubed.features.stats.PlayerStatsModule;
+
+import java.util.EnumSet;
+import java.util.Set;
 
 public class HudBarModule {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(SkyCubed.MOD_ID, "textures/gui/bars.png");
+    private static final Set<HudElementRenderCallback.Element> HIDDEN_ELEMENTS = EnumSet.of(
+            HudElementRenderCallback.Element.ARMOR,
+            HudElementRenderCallback.Element.HEALTH,
+            HudElementRenderCallback.Element.HUNGER,
+            HudElementRenderCallback.Element.AIR
+    );
+
     private static float lastManaPercentage = 0f;
     private static float lastHealthPercentage = 0f;
 
     public static void init() {
         HudRenderCallback.EVENT.register(HudBarModule::render);
+        HudElementRenderCallback.EVENT.register(element -> {
+            if (HIDDEN_ELEMENTS.contains(element) && HudBarModule.shouldReplaceHud()) {
+                return TriState.FALSE;
+            }
+            return TriState.UNDEFINED;
+        });
     }
 
     private static void render(GuiGraphics graphics, float partialTicks) {
-        if (!SkyBlockModule.isSkyBlock()) return;
-        if (!HudReplacementConfig.replaceVanillaHud) return;
+        if (!shouldReplaceHud()) return;
         Minecraft mc = Minecraft.getInstance();
         int width = mc.getWindow().getGuiScaledWidth();
         int height = mc.getWindow().getGuiScaledHeight();
@@ -50,6 +68,10 @@ public class HudBarModule {
 
         HudBarModule.lastHealthPercentage = healthPercentage;
         HudBarModule.lastManaPercentage = manaPercentage;
+    }
+
+    public static boolean shouldReplaceHud() {
+        return HudReplacementConfig.replaceVanillaHud && SkyBlockModule.isSkyBlock() && SkyBlockModule.getIsland() != IslandType.RIFT;
     }
 
 

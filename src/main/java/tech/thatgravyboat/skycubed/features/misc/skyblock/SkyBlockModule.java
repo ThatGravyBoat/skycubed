@@ -1,4 +1,4 @@
-package tech.thatgravyboat.skycubed.features.misc;
+package tech.thatgravyboat.skycubed.features.misc.skyblock;
 
 import com.teamresourceful.resourcefullib.common.utils.Scheduling;
 import net.minecraft.network.chat.Component;
@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class SkyBlockModule {
 
     private static boolean isSkyBlock = false;
+    private static IslandType island = IslandType.UNKNOWN;
     private static int requestTimer = 1;
     private static ScheduledFuture<?> locationRequest;
 
@@ -23,6 +24,9 @@ public class SkyBlockModule {
             isSkyBlock = "SKYBLOCK".equals(type);
             if ("LIMBO".equals(map) && requestTimer < 10) {
                 requestLocation(5 * requestTimer);
+            }
+            if (isSkyBlock) {
+                island = IslandType.fromId(mode);
             }
 
             if (DevConfig.devMode) {
@@ -45,5 +49,9 @@ public class SkyBlockModule {
 
     public static boolean isSkyBlock() {
         return isSkyBlock;
+    }
+
+    public static IslandType getIsland() {
+        return island;
     }
 }

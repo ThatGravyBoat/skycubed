@@ -12,6 +12,10 @@ public class TextUtils {
         return ChatFormatting.stripFormatting(component.getString().stripTrailing().toLowerCase(Locale.ROOT));
     }
 
+    public static String toText(Component component) {
+        return ChatFormatting.stripFormatting(component.getString().stripTrailing());
+    }
+
     public static void sendToChat(Component component) {
         Minecraft.getInstance().gui.getChat().addMessage(component);
     }
