@@ -65,7 +65,8 @@ public class NpcModule {
 
         var lines = font.split(FormattedText.of(content), DialogueBoxConfig.maxWidth - PADDING * 2);
         int height = (lines.size() + 1) * font.lineHeight + PADDING * 3;
-        int width = lines.stream().mapToInt(font::width).max().orElse(0) + PADDING * 2;
+        int contentWidth = lines.stream().mapToInt(font::width).max().orElse(0);
+        int width = Math.max(contentWidth, font.width(name)) + PADDING * 2;
 
         int x = (graphics.guiWidth() - width) / 2;
         int y = graphics.guiHeight() - height - 75;
