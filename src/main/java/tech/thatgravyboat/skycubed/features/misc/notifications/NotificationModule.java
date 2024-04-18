@@ -11,6 +11,7 @@ import tech.thatgravyboat.skycubed.utils.RepoPattern;
 import tech.thatgravyboat.skycubed.utils.TextUtils;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class NotificationModule {
 
@@ -23,10 +24,13 @@ public class NotificationModule {
 
         unique(NotificationConfig.hoppityTimeTower, "notifications.hoppityTimeTower", "time tower! .*"),
         unique(NotificationConfig.hoppityBarnCapacity, "notifications.hoppityBarnCapacity", "your rabbit barn capacity has been increased to [0-9,]+ rabbits!"),
-        unique(NotificationConfig.hoppityFoundRabbit, "notifications.hoppityFoundRabbit", "hoppity's hunt you found .*"),
-        unique(NotificationConfig.hoppityNewRabbit, "notifications.hoppityNewRabbit", "new rabbit! .*"),
-        single(NotificationConfig.hoppityRabbitPromoted, "notifications.hoppityRabbitPromoted", "rabbit .* has been promoted to .*"),
-        single(NotificationConfig.hoppityNotEnoughChocolate, "notifications.hoppityNotEnoughChocolate", "you don't have enough chocolate!")
+        unique(NotificationConfig.hoppityFoundRabbit, "notifications.hoppityFoundRabbit", "HOPPITY'S HUNT You found .*"),
+        unique(NotificationConfig.hoppityNewRabbit, "notifications.hoppityNewRabbit", "NEW RABBIT! .*"),
+        unique(NotificationConfig.hoppityDuplicateRabbit, "notifications.hoppityDuplicateRabbit", "DUPLICATE RABBIT! .*"),
+        single(NotificationConfig.hoppityRabbitPromoted, "notifications.hoppityRabbitPromoted", "Rabbit .* has been promoted to .*"),
+        single(NotificationConfig.hoppityNotEnoughChocolate, "notifications.hoppityNotEnoughChocolate", "you don't have enough chocolate!"),
+        single(NotificationConfig.hoppityNoNearbyEggs, "notifications.hoppityNoNearbyEggs", "There are no hidden Chocolate Rabbit Eggs nearby! Try again later!"),
+        single(NotificationConfig.hoppityAlreadyCollected, "notifications.hoppityAlreadyCollected", "You have already collected this Chocolate Lunch Egg! Try again when it respawns!")
     );
 
     public static void init() {
@@ -49,10 +53,10 @@ public class NotificationModule {
     }
 
     private static NotificationType single(NotificationOptions options, String key, @Language("RegExp") String pattern) {
-        return new NotificationType(options, key, RepoPattern.get(key, pattern));
+        return new NotificationType(options, key, RepoPattern.get(key, pattern, Pattern.CASE_INSENSITIVE));
     }
 
     private static NotificationType unique(NotificationOptions options, String key, @Language("RegExp") String pattern) {
-        return new NotificationType(options, null, RepoPattern.get(key, pattern));
+        return new NotificationType(options, null, RepoPattern.get(key, pattern, Pattern.CASE_INSENSITIVE));
     }
 }

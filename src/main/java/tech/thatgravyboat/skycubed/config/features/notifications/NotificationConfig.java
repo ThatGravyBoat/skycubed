@@ -28,11 +28,20 @@ public final class NotificationConfig {
     @ConfigEntry(id = "hoppityNewRabbit", type = EntryType.OBJECT)
     public static final NotificationOptions hoppityNewRabbit = new NotificationOptions(true, false, NotificationIcon.NONE);
 
+    @ConfigEntry(id = "hoppityDuplicateRabbit", type = EntryType.OBJECT)
+    public static final NotificationOptions hoppityDuplicateRabbit = new NotificationOptions(true, true, NotificationIcon.NONE);
+
     @ConfigEntry(id = "hoppityRabbitPromoted", type = EntryType.OBJECT)
     public static final NotificationOptions hoppityRabbitPromoted = new NotificationOptions(true, true, NotificationIcon.NONE);
 
     @ConfigEntry(id = "hoppityNotEnoughChocolate", type = EntryType.OBJECT)
     public static final NotificationOptions hoppityNotEnoughChocolate = new NotificationOptions(true, true, NotificationIcon.ERROR);
+
+    @ConfigEntry(id = "hoppityNoNearbyEggs", type = EntryType.OBJECT)
+    public static final NotificationOptions hoppityNoNearbyEggs = new NotificationOptions(true, true, NotificationIcon.ERROR);
+
+    @ConfigEntry(id = "hoppityAlreadyCollected", type = EntryType.OBJECT)
+    public static final NotificationOptions hoppityAlreadyCollected = new NotificationOptions(true, true, NotificationIcon.ERROR);
 
     @ConfigOption.Separator("Lobby Messages")
     @ConfigEntry(id = "transferredForAfk", type = EntryType.OBJECT)
